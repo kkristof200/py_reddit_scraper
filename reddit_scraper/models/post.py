@@ -8,6 +8,7 @@ from jsoncodable import JSONCodable
 
 # Local
 from .comment import Comment
+from .video import Video
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -41,6 +42,11 @@ class Post(JSONCodable):
         self.post_dict      = post_json
         self.comments_dict  = comments_json
 
+        self.video = Video(post_json)
+
+        if self.video.video_url is None:
+            self.video = None
+
         self.comments = []
 
         if comments_json is None:
@@ -53,6 +59,24 @@ class Post(JSONCodable):
                 print('comment_e', e)
 
                 pass
+    
+    def __get_video(post: Dict) -> (Optional[str], Optional[str]):
+        try:
+            video = post['media']['reddit_video']
+            
+            return video['fallback_url'], video['duration']
+        except:
+            try:
+                video = post['preview']['reddit_video_preview']
+
+                return video['fallback_url'], video['duration']
+            except:
+                return None, None
+
+        
+        post['vid_url'] = post['vid_url'].replace('?source=fallback', '')
+    video_url = post['vid_url']
+    audio_url = video_url.rsplit('/', 1)[0] + '/audio'
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #

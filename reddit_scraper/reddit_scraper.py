@@ -33,6 +33,7 @@ class RedditScraper:
         max_count: int = 50,
         ignored_flairs: List[str] = [],
         include_nsfw: bool = False,
+        only_videos: bool = False,
         include_pinned: bool = False,
         min_upvote_ratio: float = 0.75,
         min_ts: int = 0
@@ -46,7 +47,17 @@ class RedditScraper:
             if new_posts is None:
                 return posts
 
-            for post in cls.__filtered_posts(new_posts):
+            for post in cls.__filtered_posts(
+                posts=posts,
+                ignored_post_ids=ignored_post_ids or [],
+                min_score=min_score,
+                ignored_flairs=ignored_flairs or [],
+                include_nsfw=include_nsfw,
+                only_videos=only_videos,
+                include_pinned=include_pinned,
+                min_upvote_ratio=min_upvote_ratio,
+                min_ts=min_ts
+            ):
                 posts.append(post)
 
                 if len(posts) >= max_count:
@@ -132,13 +143,14 @@ class RedditScraper:
     @staticmethod
     def __filtered_posts(
         posts: List[Post],
-        ignored_post_ids: List[str] = [],
-        min_score: int = 50,
-        ignored_flairs: List[str] = [],
-        include_nsfw: bool = False,
-        include_pinned: bool = False,
-        min_upvote_ratio: float = 0.75,
-        min_ts: int = 0
+        ignored_post_ids: List[str],
+        min_score: int,
+        ignored_flairs: List[str],
+        include_nsfw: bool,
+        only_videos: bool,
+        include_pinned: bool,
+        min_upvote_ratio: float,
+        min_ts: int
     ) -> List[Post]:
         filtered = []
 
