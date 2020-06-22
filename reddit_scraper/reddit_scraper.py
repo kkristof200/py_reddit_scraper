@@ -164,6 +164,9 @@ class RedditScraper:
             if post.nsfw and not include_nsfw:
                 continue
 
+            if post.video is None and only_videos:
+                continue
+
             if post.pinned and not include_pinned:
                 continue
 
