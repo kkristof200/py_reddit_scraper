@@ -11,6 +11,9 @@ from .models.time_interval import TimeInterval
 from .models.sorting_type import SortingType
 from .models.post import Post
 from .models.comment import Comment
+from .models.image import Image
+from .models.video import Video
+from .models.post_type import PostType
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -33,7 +36,7 @@ class RedditScraper:
         max_count: int = 50,
         ignored_flairs: List[str] = [],
         include_nsfw: bool = False,
-        only_videos: bool = False,
+        post_types: List[PostType] = [PostType.TitleOnly, PostType.Text, PostType.Image, PostType.Video],
         include_pinned: bool = False,
         min_upvote_ratio: float = 0.75,
         min_ts: int = 0
@@ -53,7 +56,7 @@ class RedditScraper:
                 min_score=min_score,
                 ignored_flairs=ignored_flairs or [],
                 include_nsfw=include_nsfw,
-                only_videos=only_videos,
+                post_types=post_types,
                 include_pinned=include_pinned,
                 min_upvote_ratio=min_upvote_ratio,
                 min_ts=min_ts
@@ -147,7 +150,7 @@ class RedditScraper:
         min_score: int,
         ignored_flairs: List[str],
         include_nsfw: bool,
-        only_videos: bool,
+        post_types: List[PostType],
         include_pinned: bool,
         min_upvote_ratio: float,
         min_ts: int
@@ -164,7 +167,7 @@ class RedditScraper:
             if post.nsfw and not include_nsfw:
                 continue
 
-            if post.video is None and only_videos:
+            if post.type not in post_types:
                 continue
 
             if post.pinned and not include_pinned:
