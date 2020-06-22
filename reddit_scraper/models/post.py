@@ -9,6 +9,8 @@ from jsoncodable import JSONCodable
 # Local
 from .comment import Comment
 from .video import Video
+from .image import Image
+from .post_type import PostType
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -42,10 +44,22 @@ class Post(JSONCodable):
         self.post_dict      = post_json
         self.comments_dict  = comments_json
 
-        self.video = Video(post_json)
+        self.type = PostType.Text if len(self.content) > 0 else PostType.Text
+        self.video = None
+        self.image = None
 
-        if self.video.video_url is None:
-            self.video = None
+        if post_json['is_video']:
+            video = Video(post_json)
+
+            if video.video_url is not None:
+                self.video = video
+                self.type = PostType.Video
+        else:
+            image = Image(post_json['preview'])
+
+            if image.url is not None:
+                self.image = image
+                self.type = PostType.Image
 
         self.comments = []
 
