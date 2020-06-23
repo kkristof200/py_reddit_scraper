@@ -2,6 +2,7 @@
 
 # System
 from typing import Dict, List, Optional
+import traceback
 
 # Pip
 from jsoncodable import JSONCodable
@@ -48,13 +49,13 @@ class Post(JSONCodable):
         self.video = None
         self.image = None
 
-        if post_json['is_video']:
-            video = Video(post_json)
+        video = Video(post_json)
 
-            if video.video_url is not None:
-                self.video = video
-                self.type = PostType.Video
+        if video.video_url is not None:
+            self.video = video
+            self.type = PostType.Video
         else:
+            self.video = None
             image = Image(post_json['preview'])
 
             if image.url is not None:
@@ -69,8 +70,8 @@ class Post(JSONCodable):
         for comment_json in comments_json:
             try:
                 self.comments.append(Comment(comment_json['data']))
-            except Exception as e:
-                print('comment_e', e)
+            except:
+                traceback.print_exc()
 
                 pass
 

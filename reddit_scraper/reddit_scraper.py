@@ -2,6 +2,7 @@
 
 # System
 from typing import List, Tuple, Optional
+import traceback
 
 # Pip
 from kcu import request
@@ -46,7 +47,6 @@ class RedditScraper:
 
         while True:
             new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after)
-            print('new_posts', len(new_posts))
 
             if new_posts is None:
                 return posts
@@ -90,8 +90,8 @@ class RedditScraper:
             post.comments = cls.__filtered_comments(post.comments, comments_min_score, comments_include_stickied, comments_min_ts)
 
             return post
-        except Exception as e:
-            print('e', e)
+        except:
+            traceback.print_exc()
 
             return None
 
@@ -114,8 +114,8 @@ class RedditScraper:
             j = json.loads(request.get(url).text)
 
             return [Post(post_json['data']) for post_json in j['data']['children']], j['data']['after']
-        except Exception as e:
-            print('e', e)
+        except:
+            traceback.print_exc()
 
             return None, None
 
