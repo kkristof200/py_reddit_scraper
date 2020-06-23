@@ -39,16 +39,14 @@ class Video:
 
     def __get_video(self, post_dict: Dict) -> Optional[Tuple[str, int, int, int]]:
         try:
-            video = post['media']['reddit_video']
-
-            return video['fallback_url'], video['duration'], video['height'], video['width']
+            video = post_dict['media']['reddit_video']
         except:
             try:
-                video = post['preview']['reddit_video_preview']
-
-                return video['fallback_url'], video['duration'], video['height'], video['width']
+                video = post_dict['preview']['reddit_video_preview']
             except:
                 return None
+
+        return video['fallback_url'], video['duration'], video['height'], video['width']
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
