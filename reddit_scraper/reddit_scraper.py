@@ -46,12 +46,13 @@ class RedditScraper:
 
         while True:
             new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after)
+            print('new_posts', len(new_posts))
 
             if new_posts is None:
                 return posts
 
             for post in cls.__filtered_posts(
-                posts=posts,
+                posts=new_posts,
                 ignored_post_ids=ignored_post_ids or [],
                 min_score=min_score,
                 ignored_flairs=ignored_flairs or [],
@@ -159,24 +160,31 @@ class RedditScraper:
 
         for post in posts:
             if post.id in ignored_post_ids:
+                # print('post.id in ignored_post_ids', post.id)
                 continue
 
             if post.score < min_score:
+                # print('post.score < min_score', post.score, min_score)
                 continue
 
             if post.nsfw and not include_nsfw:
+                # print('post.nsfw', post.nsfw)
                 continue
 
             if post.type not in post_types:
+                # print('post.type', post.type)
                 continue
 
             if post.pinned and not include_pinned:
+                # print('post.pinned', post.pinned)
                 continue
 
             if post.upvote_ratio < min_upvote_ratio:
+                # print('post.upvote_ratio < min_upvote_ratio', post.upvote_ratio, min_upvote_ratio)
                 continue
 
             if post.ts < min_ts:
+                # print('post.ts < min_ts', post.ts, min_ts)
                 continue
 
             if post.flair_text is not None:
@@ -186,6 +194,7 @@ class RedditScraper:
                 for flair in ignored_flairs:
                     if flair.lower() in flair_text:
                         should_continue = True
+                        # print('has ignored flair:', flair.lower())
 
                         break
 
