@@ -2,7 +2,7 @@
 
 # System
 from typing import Dict, List, Optional
-import traceback
+import traceback, html
 
 # Pip
 from jsoncodable import JSONCodable
@@ -29,14 +29,14 @@ class Post(JSONCodable):
         comments_json: Optional[List[Dict]] = None
     ):
         self.sub            = post_json['subreddit']
-        self.title          = post_json['title']
-        self.content        = post_json['selftext']
+        self.title          = html.unescape(post_json['title'])
+        self.content        = html.unescape(post_json['selftext'])
         self.nsfw           = post_json['over_18']
         self.pinned         = post_json['pinned']
         self.id             = post_json['id']
         self.score          = post_json['score']
         self.upvote_ratio   = post_json['upvote_ratio']
-        self.flair_text     = post_json['link_flair_text']
+        self.flair_text     = html.unescape(post_json['link_flair_text'])
         self.url            = post_json['url'].strip('/')
         self.ts             = int(post_json['created_utc'])
         self.author         = post_json['author']
