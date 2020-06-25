@@ -6,6 +6,7 @@ import traceback, html
 
 # Pip
 from jsoncodable import JSONCodable
+from kcu import strings
 
 # Local
 from .comment import Comment
@@ -29,14 +30,14 @@ class Post(JSONCodable):
         comments_json: Optional[List[Dict]] = None
     ):
         self.sub            = post_json['subreddit']
-        self.title          = html.unescape(post_json['title'])
-        self.content        = html.unescape(post_json['selftext'])
+        self.title          = strings.htmlunescape(post_json['title'])
+        self.content        = strings.htmlunescape(post_json['selftext'])
         self.nsfw           = post_json['over_18']
         self.pinned         = post_json['pinned']
         self.id             = post_json['id']
         self.score          = post_json['score']
         self.upvote_ratio   = post_json['upvote_ratio']
-        self.flair_text     = html.unescape(post_json['link_flair_text'])
+        self.flair_text     = strings.htmlunescape(post_json['link_flair_text'])
         self.url            = post_json['url'].strip('/')
         self.ts             = int(post_json['created_utc'])
         self.author         = post_json['author']

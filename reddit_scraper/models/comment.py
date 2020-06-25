@@ -2,6 +2,7 @@
 
 # System
 from typing import Dict
+from kcu import strings
 
 # Pip
 from jsoncodable import JSONCodable
@@ -24,7 +25,7 @@ class Comment(JSONCodable):
         self.author         = json['author']
         self.ts             = json['created_utc']
         self.score          = json['score']
-        self.content        = json['body']
+        self.content        = strings.htmlunescape(json['body'])
         self.stickied       = json['stickied']
         self.distinguished  = json['distinguished']
         self.depth          = json['depth']
