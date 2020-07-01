@@ -30,8 +30,8 @@ class RedditScraper:
     def get_posts(
         cls,
         sub: str,
-        time_interval: TimeInterval = TimeInterval.DAY,
-        sorting_type: SortingType = SortingType.TOP,
+        time_interval: Optional[TimeInterval] = TimeInterval.DAY,
+        sorting_type: Optional[SortingType] = SortingType.TOP,
         ignored_post_ids: List[str] = [],
         min_score: int = 50,
         max_count: int = 50,
@@ -102,8 +102,8 @@ class RedditScraper:
     def __get_posts(
         cls,
         sub: str,
-        time_interval: TimeInterval,
-        sorting_type: SortingType,
+        time_interval: Optional[TimeInterval],
+        sorting_type: Optional[SortingType],
         after: Optional[str]
     ) -> Tuple[Optional[List[Post]], Optional[str]]:
         url = cls.__sub_url(sub, time_interval, sorting_type, after)
@@ -206,8 +206,18 @@ class RedditScraper:
         return filtered
 
     @staticmethod
-    def __sub_url(sub: str, time_interval: TimeInterval, sorting_type: SortingType, after: Optional[str]) -> str:
-        url = 'https://www.reddit.com/r/' + sub + '/' + sorting_type.value + '.json'
+    def __sub_url(
+        sub: str,
+        time_interval: Optional[TimeInterval],
+        sorting_type: Optional[SortingType],
+        after: Optional[str]
+    ) -> str:
+        url = 'https://www.reddit.com/r/' + sub
+
+        if sorting_type is not None:
+            url += '/' + sorting_type.value
+
+        url += '.json'
 
         if sorting_type == SortingType.TOP:
             url += '?t=' + time_interval.value
@@ -215,7 +225,7 @@ class RedditScraper:
             if after is not None:
                 url += '&after=' + after
         elif after is not None:
-            url += '&after=' + after
+            url += '?after=' + after
 
         return url
 
