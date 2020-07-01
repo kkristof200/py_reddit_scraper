@@ -67,7 +67,13 @@ class RedditScraper:
                 if len(posts) >= max_count:
                     return posts
 
-            if ((after is None) or (sorting_type == SortingType.TOP and (len(new_posts) > 0 and new_posts[-1].score < min_score))):
+            if (
+                (after is None) 
+                or
+                (sorting_type == SortingType.TOP and (len(new_posts) > 0 and new_posts[-1].score < min_score))
+                or
+                (sorting_type == SortingType.NEW and new_posts[-1].ts < min_ts))
+            ):
                 return posts
 
     @classmethod
