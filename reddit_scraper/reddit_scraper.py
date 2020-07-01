@@ -72,7 +72,7 @@ class RedditScraper:
                 or
                 (sorting_type == SortingType.TOP and (len(new_posts) > 0 and new_posts[-1].score < min_score))
                 or
-                (sorting_type == SortingType.NEW and (len(new_posts) > 0 and new_posts[-1].ts < min_ts)))
+                (sorting_type == SortingType.NEW and (len(new_posts) > 0 and new_posts[-1].ts < min_ts))
             ):
                 return posts
 
