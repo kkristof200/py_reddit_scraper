@@ -46,7 +46,7 @@ class Post(JSONCodable):
         self.post_dict      = post_json
         self.comments_dict  = comments_json
 
-        self.type = PostType.Text if len(self.content) > 0 else PostType.Text
+        self.type = PostType.Text if len(self.content) > 0 else PostType.TitleOnly
         self.video = None
         self.image = None
 
@@ -55,8 +55,7 @@ class Post(JSONCodable):
         if video.video_url is not None:
             self.video = video
             self.type = PostType.Video
-        else:
-            self.video = None
+        elif 'preview' in post_json:
             image = Image(post_json['preview'])
 
             if image.url is not None:

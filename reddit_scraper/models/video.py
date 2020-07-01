@@ -27,7 +27,7 @@ class Video:
 
         if vid_res is None:
             return
-        
+
         self.video_url = vid_res[0].strip('?source=fallback')
         self.duration = vid_res[1]
         self.height = vid_res[2]
@@ -46,7 +46,10 @@ class Video:
             except:
                 return None
 
-        return video['fallback_url'], video['duration'], video['height'], video['width']
+        try:
+            return video['fallback_url'], video['duration'], video['height'], video['width']
+        except:
+            return None
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
