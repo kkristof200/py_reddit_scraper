@@ -9,7 +9,7 @@ else:
 
 setuptools.setup(
     name="reddit_scraper",
-    version="0.0.17",
+    version="0.0.18",
     author="Kristof",
     description="reddit_scraper",
     long_description=long_description,

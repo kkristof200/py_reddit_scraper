@@ -2,10 +2,12 @@
 
 # System
 from typing import Dict
-from kcu import strings
 
 # Pip
 from jsoncodable import JSONCodable
+
+# Local
+from .common_utils import clean_text
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -25,7 +27,7 @@ class Comment(JSONCodable):
         self.author         = json['author']
         self.ts             = json['created_utc']
         self.score          = json['score']
-        self.content        = strings.htmlunescape(json['body'])
+        self.content        = clean_text(json['body'])
         self.stickied       = json['stickied']
         self.distinguished  = json['distinguished']
         self.depth          = json['depth']
