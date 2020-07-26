@@ -40,13 +40,14 @@ class RedditScraper:
         post_types: List[PostType] = [PostType.TitleOnly, PostType.Text, PostType.Image, PostType.Video],
         include_pinned: bool = False,
         min_upvote_ratio: float = 0.75,
-        min_ts: int = 0
+        min_ts: int = 0,
+        fake_useragent: bool = True
     ) -> List[Post]:
         posts = []
         after = None
 
         while True:
-            new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after)
+            new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after, fake_useragent=fake_useragent)
 
             if new_posts is None:
                 return posts
@@ -83,14 +84,15 @@ class RedditScraper:
         sorting_type: SortingType = SortingType.TOP,
         comments_min_score: int = 50,
         comments_include_stickied: bool = False,
-        comments_min_ts: int = 0
+        comments_min_ts: int = 0,
+        fake_useragent: bool = True
     ) -> Optional[Post]:
         url = cls.__post_url(post_id, sorting_type)
 
         try:
             import json
 
-            j = json.loads(request.get(url).text)
+            j = json.loads(request.get(url, debug=True, fake_useragent=fake_useragent).text)
 
             post = Post(j[0]['data']['children'][0]['data'], j[1]['data']['children'])
             post.comments = cls.__filtered_comments(post.comments, comments_min_score, comments_include_stickied, comments_min_ts)
@@ -110,14 +112,15 @@ class RedditScraper:
         sub: str,
         time_interval: Optional[TimeInterval],
         sorting_type: Optional[SortingType],
-        after: Optional[str]
+        after: Optional[str],
+        fake_useragent: bool
     ) -> Tuple[Optional[List[Post]], Optional[str]]:
         url = cls.__sub_url(sub, time_interval, sorting_type, after)
 
         try:
             import json
 
-            j = json.loads(request.get(url).text)
+            j = json.loads(request.get(url, fake_useragent=fake_useragent).text)
 
             return [Post(post_json['data']) for post_json in j['data']['children']], j['data']['after']
         except:
