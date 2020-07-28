@@ -3,12 +3,12 @@ import string
 
 from reddit_scraper.reddit_scraper import RedditScraper
 
-posts = RedditScraper.get_posts('askreddit', max_count=10)
+# posts = RedditScraper.get_posts('askreddit', max_count=10)
 
-print(len(posts))
+# print(len(posts))
 
-id_ = 'hckkcp'
-post = RedditScraper.get_post(id_, comments_min_score=5000)
+id_ = 'hyuiqg'
+post = RedditScraper.get_post(id_, comments_min_score=250)
 
 j = post.json
 del j['post_dict']

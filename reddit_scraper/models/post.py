@@ -71,8 +71,9 @@ class Post(JSONCodable):
             try:
                 self.comments.append(Comment(comment_json['data']))
             except:
-                traceback.print_exc()
+                # traceback.print_exc()
 
                 pass
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------------- #
