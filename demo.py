@@ -1,6 +1,4 @@
-from kcu import kjson, strings
-import string
-
+from kcu import kjson
 from reddit_scraper.reddit_scraper import RedditScraper
 
 # posts = RedditScraper.get_posts('askreddit', max_count=10)

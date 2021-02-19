@@ -69,7 +69,7 @@ class RedditScraper:
                     return posts
 
             if (
-                (after is None) 
+                (after is None)
                 or
                 (sorting_type == SortingType.TOP and (len(new_posts) > 0 and new_posts[-1].score < min_score))
                 or
@@ -211,7 +211,7 @@ class RedditScraper:
                     continue
 
             filtered.append(post)
-        
+
         return filtered
 
     @staticmethod

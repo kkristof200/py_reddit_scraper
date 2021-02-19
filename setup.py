@@ -9,14 +9,17 @@ else:
 
 setuptools.setup(
     name="reddit_scraper",
-    version="0.0.19",
+    version="0.0.20",
     author="Kristof",
     description="reddit_scraper",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kkristof200/py_reddit_scraper",
     packages=setuptools.find_packages(),
-    install_requires=["jsoncodable", "kcu"],
+    install_requires=[
+        'jsoncodable>=0.0.12',
+        'kcu>=0.0.63'
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

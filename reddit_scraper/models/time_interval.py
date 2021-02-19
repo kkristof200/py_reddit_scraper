@@ -10,7 +10,8 @@ from enum import Enum
 # --------------------------------------------------------- class: TimeInterval ---------------------------------------------------------- #
 
 class TimeInterval(Enum):
-    NOW     = 'now'
+    NOW     = 'hour'
+    HOUR    = 'hour'
     DAY     = 'day'
     WEEK    = 'week'
     MONTH   = 'month'
