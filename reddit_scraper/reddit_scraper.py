@@ -41,13 +41,14 @@ class RedditScraper:
         include_pinned: bool = False,
         min_upvote_ratio: float = 0.75,
         min_ts: int = 0,
-        fake_useragent: bool = True
+        user_agent: Optional[str] = None,
+        fake_useragent: bool = False,
     ) -> List[Post]:
         posts = []
         after = None
 
         while True:
-            new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after, fake_useragent=fake_useragent)
+            new_posts, after = cls.__get_posts(sub, time_interval, sorting_type, after, user_agent=user_agent, fake_useragent=fake_useragent)
 
             if new_posts is None:
                 return posts
@@ -113,6 +114,7 @@ class RedditScraper:
         time_interval: Optional[TimeInterval],
         sorting_type: Optional[SortingType],
         after: Optional[str],
+        user_agent: Optional[str],
         fake_useragent: bool
     ) -> Tuple[Optional[List[Post]], Optional[str]]:
         url = cls.__sub_url(sub, time_interval, sorting_type, after)
@@ -120,7 +122,7 @@ class RedditScraper:
         try:
             import json
 
-            j = json.loads(request.get(url, fake_useragent=fake_useragent).text)
+            j = json.loads(request.get(url, user_agent=user_agent, fake_useragent=fake_useragent).text)
 
             return [Post(post_json['data']) for post_json in j['data']['children']], j['data']['after']
         except:

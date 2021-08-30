@@ -9,7 +9,7 @@ else:
 
 setuptools.setup(
     name="reddit_scraper",
-    version="0.0.20",
+    version="0.0.21",
     author="Kristof",
     description="reddit_scraper",
     long_description=long_description,
@@ -17,8 +17,8 @@ setuptools.setup(
     url="https://github.com/kkristof200/py_reddit_scraper",
     packages=setuptools.find_packages(),
     install_requires=[
-        'jsoncodable>=0.0.12',
-        'kcu>=0.0.63'
+        'jsoncodable>=0.1.7',
+        'kcu>=0.0.68'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
