@@ -1,15 +1,19 @@
 from kcu import kjson
 from reddit_scraper.reddit_scraper import RedditScraper
+import json
 
-# posts = RedditScraper.get_posts('askreddit', max_count=10)
+sub = 'soccer'
 
-# print(len(posts))
+posts = RedditScraper.get_posts(sub, max_count=10, fake_useragent=True)
 
-id_ = 'hyuiqg'
-post = RedditScraper.get_post(id_, comments_min_score=250)
+print(len(posts))
+kjson.save(sub + '.json', [post.json for post in posts])
 
-j = post.json
-del j['post_dict']
-del j['comments_dict']
+# id_ = 'hyuiqg'
+# post = RedditScraper.get_post(id_, comments_min_score=250)
 
-kjson.save(id_ + '.json', j)
+# j = post.json
+# del j['post_dict']
+# del j['comments_dict']
+
+# kjson.save(id_ + '.json', j)

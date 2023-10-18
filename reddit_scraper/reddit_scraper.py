@@ -5,7 +5,7 @@ from typing import List, Tuple, Optional
 import traceback
 
 # Pip
-from kcu import request
+from kcu import request, kjson
 
 # Local
 from .models.time_interval import TimeInterval
@@ -123,6 +123,8 @@ class RedditScraper:
             import json
 
             j = json.loads(request.get(url, user_agent=user_agent, fake_useragent=fake_useragent).text)
+
+            kjson.save('test.json', j)
 
             return [Post(post_json['data']) for post_json in j['data']['children']], j['data']['after']
         except:
